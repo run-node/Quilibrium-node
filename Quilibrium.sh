@@ -8,7 +8,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # 脚本保存路径
-SCRIPT_PATH="$HOME/Quili.sh"
+SCRIPT_PATH="$HOME/Quilibrium.sh"
 
 # 节点安装功能
 function install_node() {
@@ -81,7 +81,7 @@ function main_menu() {
     clear
     echo "请选择要执行的操作:"
     echo "1. 安装节点"
-    echo "2. 查看节点日志(查看完请按Ctrl+A后D 退出S)"
+    echo "2. 查看节点日志(查看完请按Ctrl+A后按D 退出Sreen)"
     read -p "请输入选项（1-3）: " OPTION
 
     case $OPTION in
