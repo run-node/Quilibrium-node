@@ -90,7 +90,7 @@ function main_menu() {
     echo "查询余额官网："https://quilibrium.com/"
     echo "请选择要执行的操作:"
     echo "1. 安装节点"
-    echo "2. 查看节点日志(查看完请按Ctrl+A后按D 退出Sreen)"
+    echo "2. 查看节点日志（查看完请按Ctrl+A后按D退出Screen）"
     echo "3. 查询钱包地址"
     read -p "请输入选项（1-3）: " OPTION
 
