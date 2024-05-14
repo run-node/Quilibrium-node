@@ -87,7 +87,7 @@ function main_menu() {
     echo "需要测试网节点部署托管 技术指导 部署领水质押脚本 请联系Telegram :https://t.me/linzeusasa"
     echo "需要测试网节点部署托管 技术指导 部署领水质押脚本 请联系Wechat :llkkxx001"
     echo "安装后请备份您的钱包文件，路径为/root/ceremonyclient/node/.config中的config和keys两个文件"
-    echo "查询余额官网："https://quilibrium.com/"
+    echo "查询余额官网：https://quilibrium.com/"
     echo "请选择要执行的操作:"
     echo "1. 安装节点"
     echo "2. 查看节点日志（查看完请按Ctrl+A后按D退出Screen）"
