@@ -13,7 +13,6 @@ SCRIPT_PATH="$HOME/Quilibrium.sh"
 # 节点安装功能
 function install_node() {
 
-
 # 增加swap空间
 sudo mkdir /swap
 sudo fallocate -l 24G /swap/swapfile
@@ -68,7 +67,7 @@ screen -dmS Quili bash -c './poor_mans_cd.sh'
 }
 
 
-# 查看常规版本节点日志
+# 查看节点日志
 function check_service_status() {
     screen -r Quili
    
@@ -79,6 +78,9 @@ function check_service_status() {
 # 主菜单
 function main_menu() {
     clear
+    echo "==========================自用脚本=============================="
+    echo "需要测试网节点部署托管 技术指导 部署领水质押脚本 请联系Telegram :https://t.me/linzeusasa"
+    echo "需要测试网节点部署托管 技术指导 部署领水质押脚本 请联系Wechat :llkkxx001"
     echo "请选择要执行的操作:"
     echo "1. 安装节点"
     echo "2. 查看节点日志(查看完请按Ctrl+A后按D 退出Sreen)"
