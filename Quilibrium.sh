@@ -73,6 +73,11 @@ function check_service_status() {
    
 }
 
+function check_address(){
+source /root/.gvm/scripts/gvm
+gvm use go1.20.2
+cd ~/ceremonyclient/node/ && GOEXPERIMENT=arenas go run ./... -peer-id
+}
 
 
 # 主菜单
@@ -81,14 +86,18 @@ function main_menu() {
     echo "==========================自用脚本=============================="
     echo "需要测试网节点部署托管 技术指导 部署领水质押脚本 请联系Telegram :https://t.me/linzeusasa"
     echo "需要测试网节点部署托管 技术指导 部署领水质押脚本 请联系Wechat :llkkxx001"
+    echo "安装后请备份您的钱包文件，路径为/root/ceremonyclient/node/.config中的config和keys两个文件"
+    echo "查询余额官网："https://quilibrium.com/"
     echo "请选择要执行的操作:"
     echo "1. 安装节点"
     echo "2. 查看节点日志(查看完请按Ctrl+A后按D 退出Sreen)"
+    echo "3. 查询钱包地址"
     read -p "请输入选项（1-3）: " OPTION
 
     case $OPTION in
     1) install_node ;;
-    2) check_service_status ;;  
+    2) check_service_status ;; 
+    3) check_address ;;
     *) echo "无效选项。" ;;
     esac
 }
