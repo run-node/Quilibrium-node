@@ -81,11 +81,11 @@ cd ~/ceremonyclient/node/ && GOEXPERIMENT=arenas go run ./... -peer-id
 
 function restart(){
 screen -X -S Quili quit
-screen -S Quili
 source /root/.gvm/scripts/gvm
 gvm use go1.20.2
 cd ceremonyclient/node
-./poor_mans_cd.sh
+# 创建一个screen会话并运行命令
+screen -dmS Quili bash -c './poor_mans_cd.sh'
 }
 
 # 主菜单
