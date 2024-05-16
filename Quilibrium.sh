@@ -101,7 +101,7 @@ function main_menu() {
     echo "2. 查看节点日志（查看完请按Ctrl+A后按D退出Screen）"
     echo "3. 查询钱包地址"
     echo "4. 重启节点"
-    read -p "请输入选项（1-3）: " OPTION
+    read -p "请输入选项（1-4）: " OPTION
 
     case $OPTION in
     1) install_node ;;
