@@ -69,6 +69,11 @@ screen -dmS Quili bash -c './poor_mans_cd.sh'
 
 # 查看节点日志
 function check_service_status() {
+    count=$(screen -ls | grep Quili | wc -l)
+    
+    if [ $count -gt 1 ]; then
+        echo "存在多个Quili会话----请进入screen查询后手动关闭多余的screen(screen -list查询  screen -X -S ID quit关闭会话)"
+        
     screen -r Quili
    
 }
@@ -81,11 +86,16 @@ cd ~/ceremonyclient/node/ && GOEXPERIMENT=arenas go run ./... -peer-id
 
 function restart(){
 screen -X -S Quili quit
-source /root/.gvm/scripts/gvm
-gvm use go1.20.2
-cd ceremonyclient/node
-# 创建一个screen会话并运行命令
-screen -dmS Quili bash -c './poor_mans_cd.sh'
+count=$(screen -ls | grep Quili | wc -l)
+
+if [ $count -gt 1 ]; then
+    echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
+screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+
+}
+
+function backup(){
+cp $HOME/ceremonyclient/node/.config/{config.yml,keys.yml} $HOME
 }
 
 # 主菜单
@@ -100,14 +110,16 @@ function main_menu() {
     echo "1. 安装节点"
     echo "2. 查看节点日志（查看完请按Ctrl+A后按D退出Screen）"
     echo "3. 查询钱包地址"
-    echo "4. 重启节点"
-    read -p "请输入选项（1-4）: " OPTION
+    echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
+    echo "5. 备份钱包数据文件到root目录中"
+    read -p "请输入选项（1-5）: " OPTION
 
     case $OPTION in
     1) install_node ;;
     2) check_service_status ;; 
     3) check_address ;;
     4) restart ;;
+    5) backup ;
     *) echo "无效选项。" ;;
     esac
 }
