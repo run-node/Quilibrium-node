@@ -73,7 +73,7 @@ function check_service_status() {
     
     if [ $count -gt 1 ]; then
         echo "存在多个Quili会话----请进入screen查询后手动关闭多余的screen(screen -list查询  screen -X -S ID quit关闭会话)"
-        
+    fi 
     screen -r Quili
    
 }
