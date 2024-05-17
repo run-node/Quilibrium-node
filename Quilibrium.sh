@@ -111,6 +111,22 @@ fi
 rm -rf cerecomyclient
 }
 
+function download(){
+if [ $count -gt 1 ]; then
+    echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
+fi
+screen -X -S Quili quit
+wget http://95.216.228.91/store.zip
+apt install unzip
+unzip store.zip
+cd ~/ceremonyclient/node/.config
+rm -rf store
+cd ~
+mv store ~/ceremonyclient/node/.config
+screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+
+}
+
 # 主菜单
 function main_menu() {
     clear
@@ -129,7 +145,8 @@ function main_menu() {
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
     echo "5. 备份钱包文件到root目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    read -p "请输入选项（1-6）: " OPTION
+    echo "7. 下载快照"
+    read -p "请输入选项（1-7）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -138,6 +155,7 @@ function main_menu() {
     4) restart ;;
     5) backup ;;
     6) uninstall ;;
+    6) download ;;
     *) echo "无效选项。" ;;
     esac
 }
