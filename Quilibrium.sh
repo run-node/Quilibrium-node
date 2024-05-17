@@ -97,6 +97,8 @@ echo "已重启节点，请执行查看节点日志查看"
 
 function backup(){
 cp $HOME/ceremonyclient/node/.config/{config.yml,keys.yml} $HOME
+mkdir -p $HOME/quilibrium_key && cp /root/ceremonyclient/node/.config/{config.yml,keys.yml} $HOME/quilibrium_key
+
 }
 
 function uninstall(){
@@ -143,9 +145,9 @@ function main_menu() {
     echo "2. 查看节点日志（查看完请按Ctrl+A后按D退出Screen）"
     echo "3. 查询钱包地址"
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
-    echo "5. 备份钱包文件到root目录中"
+    echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 下载快照"
+    echo "7. 下载快照(直达41w高度后继续自动同步)"
     read -p "请输入选项（1-7）: " OPTION
 
     case $OPTION in
