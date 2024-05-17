@@ -119,7 +119,7 @@ function main_menu() {
     2) check_service_status ;; 
     3) check_address ;;
     4) restart ;;
-    5) backup ;
+    5) backup ;;
     *) echo "无效选项。" ;;
     esac
 }
