@@ -91,7 +91,7 @@ count=$(screen -ls | grep Quili | wc -l)
 if [ $count -gt 1 ]; then
     echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
 screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
-
+fi
 }
 
 function backup(){
