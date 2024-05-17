@@ -155,7 +155,7 @@ function main_menu() {
     4) restart ;;
     5) backup ;;
     6) uninstall ;;
-    6) download ;;
+    7) download ;;
     *) echo "无效选项。" ;;
     esac
 }
