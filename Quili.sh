@@ -101,10 +101,6 @@ function backup(){
 cp $HOME/ceremonyclient/node/.config/{config.yml,keys.yml} $HOME
 }
 
-function backup(){
-cp $HOME/ceremonyclient/node/.config/{config.yml,keys.yml} $HOME
-}
-
 function uninstall(){
 
 screen -X -S Quili quit
