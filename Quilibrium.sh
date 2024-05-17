@@ -98,6 +98,18 @@ function backup(){
 cp $HOME/ceremonyclient/node/.config/{config.yml,keys.yml} $HOME
 }
 
+function uninstall(){
+
+screen -X -S Quili quit
+count=$(screen -ls | grep Quili | wc -l)
+
+if [ $count -gt 1 ]; then
+    echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
+screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+fi
+rm -rf cerecomyclient
+}
+
 # 主菜单
 function main_menu() {
     clear
@@ -106,13 +118,17 @@ function main_menu() {
     echo "需要测试网节点部署托管 技术指导 部署领水质押脚本 请联系Wechat :llkkxx001"
     echo "安装后请备份您的钱包文件，路径为/root/ceremonyclient/node/.config中的config和keys两个文件"
     echo "查询余额官网：https://quilibrium.com/"
+    echo "查询节点列表代码 screen -list(获取会话ID)"
+    echo "查询会话Quili代码 screen -r ID"
+    echo "关闭多余会话代码 screen -X -S ID quit"
     echo "请选择要执行的操作:"
     echo "1. 安装节点"
     echo "2. 查看节点日志（查看完请按Ctrl+A后按D退出Screen）"
     echo "3. 查询钱包地址"
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
-    echo "5. 备份钱包数据文件到root目录中"
-    read -p "请输入选项（1-5）: " OPTION
+    echo "5. 备份钱包文件到root目录中"
+    echo "6. 卸载节点(请提前备份好钱包文件)"
+    read -p "请输入选项（1-6）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -120,6 +136,7 @@ function main_menu() {
     3) check_address ;;
     4) restart ;;
     5) backup ;;
+    6) uninstall ;;
     *) echo "无效选项。" ;;
     esac
 }
