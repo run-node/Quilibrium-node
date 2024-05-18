@@ -134,7 +134,6 @@ function main_menu() {
     clear
     echo "==========================自用脚本=============================="
     echo "需要测试网节点部署托管 技术指导 部署领水质押脚本 请联系Telegram :https://t.me/linzeusasa"
-    echo "需要测试网节点部署托管 技术指导 部署领水质押脚本 请联系Wechat :llkkxx001"
     echo "安装后请备份您的钱包文件，路径为/root/ceremonyclient/node/.config中的config和keys两个文件"
     echo "查询余额官网：https://quilibrium.com/"
     echo "查询节点列表代码 screen -list(获取会话ID)"
