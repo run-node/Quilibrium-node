@@ -88,46 +88,74 @@ cd ~/ceremonyclient/node/ && GOEXPERIMENT=arenas go run ./... -peer-id
 }
 
 function restart(){
-screen -X -S Quili quit
-count=$(screen -ls | grep Quili | wc -l)
+
+# 检查 screen 会话的数量
+count=$(screen -list | grep -c "Quili")
 
 if [ $count -gt 1 ]; then
-    echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
-screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
+else
+    screen -X -S Quili quit
+    # 启动新的 screen 会话
+    screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+    echo "新的 screen 会话已启动。"
 fi
 }
 
 function backup(){
 cp $HOME/ceremonyclient/node/.config/{config.yml,keys.yml} $HOME
+mkdir -p $HOME/quilibrium_key && cp /root/ceremonyclient/node/.config/{config.yml,keys.yml} $HOME/quilibrium_key
+
 }
 
 function uninstall(){
 
-screen -X -S Quili quit
+
 count=$(screen -ls | grep Quili | wc -l)
 
 if [ $count -gt 1 ]; then
-    echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
-screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
+else
+    screen -X -S Quili quit
 fi
+
 rm -rf cerecomyclient
+}
+
+function download(){
+if [ $count -gt 1 ]; then
+    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
+else
+    screen -X -S Quili quit
+fi
+wget http://95.216.228.91/store.zip
+apt install unzip
+unzip store.zip
+cd ~/ceremonyclient/node/.config
+rm -rf store
+cd ~
+mv store ~/ceremonyclient/node/.config
+screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+
 }
 
 function repair(){
 
 wget -O /root/ceremonyclient/node/.config/REPAIR "https://2040319038-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FwYHoFaVat0JopE1zxmDI%2Fuploads%2FJL4Ytu5OIWHbisIbZs8v%2FREPAIR?alt=media&token=d080b681-ee26-470c-baae-4723bcf018a3"
-screen -X -S Quili quit
-count=$(screen -ls | grep Quili | wc -l)
+
+# 检查 screen 会话的数量
+count=$(screen -list | grep -c "Quili")
 
 if [ $count -gt 1 ]; then
-    echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
-screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
+else
+    screen -X -S Quili quit
+    # 启动新的 screen 会话
+    screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+    echo "新的 screen 会话已启动。"
 fi
-echo "修复成功"
-}
 
-function backup(){
-cp $HOME/ceremonyclient/node/.config/{config.yml,keys.yml} $HOME
+echo "修复成功"
 }
 
 # 主菜单
@@ -145,10 +173,11 @@ function main_menu() {
     echo "2. 查看节点日志（查看完请按Ctrl+A后按D退出Screen）"
     echo "3. 查询钱包地址"
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
-    echo "5. 备份钱包文件到root目录中"
+    echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 修复卡块"
-    read -p "请输入选项（1-7）: " OPTION
+    echo "7. 下载快照(直达41w高度后继续自动同步)"
+    echo "8. 修复卡块"
+    read -p "请输入选项（1-8）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -157,7 +186,8 @@ function main_menu() {
     4) restart ;;
     5) backup ;;
     6) uninstall ;;
-    7) repair ;;
+    7) download ;;
+    8) repair ;;
     *) echo "无效选项。" ;;
     esac
 }
