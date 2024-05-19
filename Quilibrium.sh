@@ -85,14 +85,18 @@ cd ~/ceremonyclient/node/ && GOEXPERIMENT=arenas go run ./... -peer-id
 }
 
 function restart(){
-screen -X -S Quili quit
-count=$(screen -ls | grep Quili | wc -l)
+
+# 检查 screen 会话的数量
+count=$(screen -list | grep -c "Quili")
 
 if [ $count -gt 1 ]; then
-    echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
+    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
+else
+    screen -X -S Quili quit
+    # 启动新的 screen 会话
+    screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+    echo "新的 screen 会话已启动。"
 fi
-screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
-echo "已重启节点，请执行查看节点日志查看"
 }
 
 function backup(){
@@ -103,11 +107,13 @@ mkdir -p $HOME/quilibrium_key && cp /root/ceremonyclient/node/.config/{config.ym
 
 function uninstall(){
 
-screen -X -S Quili quit
+
 count=$(screen -ls | grep Quili | wc -l)
 
 if [ $count -gt 1 ]; then
-    echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
+    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
+else
+    screen -X -S Quili quit
 fi
 
 rm -rf cerecomyclient
@@ -115,9 +121,10 @@ rm -rf cerecomyclient
 
 function download(){
 if [ $count -gt 1 ]; then
-    echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
+    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
+else
+    screen -X -S Quili quit
 fi
-screen -X -S Quili quit
 wget http://95.216.228.91/store.zip
 apt install unzip
 unzip store.zip
@@ -132,13 +139,18 @@ screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && 
 function repair(){
 
 wget -O /root/ceremonyclient/node/.config/REPAIR "https://2040319038-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FwYHoFaVat0JopE1zxmDI%2Fuploads%2FJL4Ytu5OIWHbisIbZs8v%2FREPAIR?alt=media&token=d080b681-ee26-470c-baae-4723bcf018a3"
-screen -X -S Quili quit
-count=$(screen -ls | grep Quili | wc -l)
+
+# 检查 screen 会话的数量
+count=$(screen -list | grep -c "Quili")
 
 if [ $count -gt 1 ]; then
-    echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
+    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
+else
+    screen -X -S Quili quit
+    # 启动新的 screen 会话
+    screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+    echo "新的 screen 会话已启动。"
 fi
-screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
 
 echo "修复成功"
 }
