@@ -55,6 +55,12 @@ export GOROOT_BOOTSTRAP=$GOROOT
 gvm install go1.20.2
 gvm use go1.20.2
 
+cd $HOME/ceremonyclient/client 
+source /root/.gvm/scripts/gvm && gvm use go1.20.2
+go mod tidy
+GOEXPERIMENT=arenas go build -o /root/go/bin/qclient main.go
+
+
 # 克隆仓库
 git clone https://github.com/quilibriumnetwork/ceremonyclient
 
@@ -164,7 +170,7 @@ function check_balance() {
     cd $HOME/ceremonyclient/node/ && GOEXPERIMENT=arenas go run ./... -balance
 }
 
-# go_mod
+# 查询币余额
 function go_mod() {
     cd $HOME/ceremonyclient/client 
     source /root/.gvm/scripts/gvm && gvm use go1.20.2
