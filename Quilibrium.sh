@@ -155,6 +155,11 @@ fi
 echo "修复成功"
 }
 
+# 查询币余额
+function check_balance() {
+    cd ~/ceremonyclient/node/ && GOEXPERIMENT=arenas go run ./... -balance
+}
+
 # 主菜单
 function main_menu() {
     clear
@@ -174,7 +179,8 @@ function main_menu() {
     echo "6. 卸载节点(请提前备份好钱包文件)"
     echo "7. 下载快照(直达41w高度后继续自动同步)"
     echo "8. 修复卡块"
-    read -p "请输入选项（1-8）: " OPTION
+    echo "9. 查询余额(下版本更新余额)"
+    read -p "请输入选项（1-9）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -185,6 +191,7 @@ function main_menu() {
     6) uninstall ;;
     7) download ;;
     8) repair ;;
+    9) check_balance ;;
     *) echo "无效选项。" ;;
     esac
 }
