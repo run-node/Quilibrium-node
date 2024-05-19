@@ -160,7 +160,14 @@ echo "修复成功"
 
 # 查询币余额
 function check_balance() {
+    source /root/.gvm/scripts/gvm && gvm use go1.20.2
     cd ~/ceremonyclient/node/ && GOEXPERIMENT=arenas go run ./... -balance
+}
+
+# 查询币余额
+function go_mod() {
+    source /root/.gvm/scripts/gvm && gvm use go1.20.2
+    go mod tidy
 }
 
 # 主菜单
@@ -183,6 +190,7 @@ function main_menu() {
     echo "7. 下载快照(直达41w高度后继续自动同步)"
     echo "8. 修复卡块"
     echo "9. 查询余额(下版本更新余额)"
+    echo "10. 更新go模块(查询余额go模块报错请执行该步骤)"
     read -p "请输入选项（1-9）: " OPTION
 
     case $OPTION in
@@ -195,6 +203,7 @@ function main_menu() {
     7) download ;;
     8) repair ;;
     9) check_balance ;;
+    10) go_mod ;;
     *) echo "无效选项。" ;;
     esac
 }
