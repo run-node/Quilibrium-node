@@ -147,8 +147,8 @@ function main_menu() {
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
     echo "5. 备份钱包文件到root目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "6. 修复卡块"
-    read -p "请输入选项（1-6）: " OPTION
+    echo "7. 修复卡块"
+    read -p "请输入选项（1-7）: " OPTION
 
     case $OPTION in
     1) install_node ;;
