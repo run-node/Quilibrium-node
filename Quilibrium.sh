@@ -129,6 +129,19 @@ screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && 
 
 }
 
+function repair(){
+
+wget -O /root/ceremonyclient/node/.config/REPAIR "https://2040319038-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FwYHoFaVat0JopE1zxmDI%2Fuploads%2FJL4Ytu5OIWHbisIbZs8v%2FREPAIR?alt=media&token=d080b681-ee26-470c-baae-4723bcf018a3"
+screen -X -S Quili quit
+count=$(screen -ls | grep Quili | wc -l)
+
+if [ $count -gt 1 ]; then
+    echo "请手动关闭存在的多个 screen 会话-----命令为screen -X -S ID Quit（通过screen -list查询对应ID）"
+screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+fi
+echo "修复成功"
+}
+
 # 主菜单
 function main_menu() {
     clear
@@ -147,7 +160,8 @@ function main_menu() {
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
     echo "7. 下载快照(直达41w高度后继续自动同步)"
-    read -p "请输入选项（1-7）: " OPTION
+    echo "8. 修复卡块"
+    read -p "请输入选项（1-8）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -157,6 +171,7 @@ function main_menu() {
     5) backup ;;
     6) uninstall ;;
     7) download ;;
+    8) repair ;;
     *) echo "无效选项。" ;;
     esac
 }
