@@ -50,15 +50,17 @@ gvm install go1.17.13
 gvm use go1.17.13
 export GOROOT_BOOTSTRAP=$GOROOT
 gvm install go1.20.2
-gvm use go1.20.2
+
+cd $HOME/ceremonyclient/client 
+GOEXPERIMENT=arenas go build -o /root/go/bin/qclient main.go
 go mod tidy
 
 # 克隆仓库
 git clone https://github.com/quilibriumnetwork/ceremonyclient
 
 # 进入ceremonyclient/node目录
-cd ceremonyclient/node 
-
+cd $HOME/ceremonyclient/node 
+go mod tidy
 # 赋予执行权限
 chmod +x poor_mans_cd.sh
 
