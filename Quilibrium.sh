@@ -130,15 +130,16 @@ if [ $count -gt 1 ]; then
 else
     screen -X -S Quili quit
 fi
-wget http://95.216.228.91/store.zip
-apt install unzip
-unzip store.zip
+
+apt install p7zip-full
+wget http://116.202.49.57:50708/store.7z
+7z x store.7z
 cd ~/ceremonyclient/node/.config
 rm -rf store
 cd ~
 mv store ~/ceremonyclient/node/.config
-screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
 
+screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
 }
 
 function repair(){
