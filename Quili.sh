@@ -39,9 +39,6 @@ sudo apt update && sudo apt -y upgrade
 # 安装wget、screen和git等组件
 sudo apt install git ufw bison screen binutils gcc make bsdmainutils -y
 
-sudo apt install golang-go
-go version
-
 # 安装GVM
 bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 source /root/.gvm/scripts/gvm
@@ -53,20 +50,18 @@ gvm install go1.17.13
 gvm use go1.17.13
 export GOROOT_BOOTSTRAP=$GOROOT
 gvm install go1.20.2
-gvm use go1.20.2
+
+# 克隆仓库
+git clone https://github.com/quilibriumnetwork/ceremonyclient
 
 cd $HOME/ceremonyclient/client 
 source /root/.gvm/scripts/gvm && gvm use go1.20.2
 go mod tidy
 GOEXPERIMENT=arenas go build -o /root/go/bin/qclient main.go
 
-
-# 克隆仓库
-git clone https://github.com/quilibriumnetwork/ceremonyclient
-
 # 进入ceremonyclient/node目录
-cd ceremonyclient/node 
-
+cd $HOME/ceremonyclient/node 
+go mod tidy
 # 赋予执行权限
 chmod +x poor_mans_cd.sh
 
@@ -95,13 +90,7 @@ cd ~/ceremonyclient/node/ && GOEXPERIMENT=arenas go run ./... -peer-id
 
 function restart(){
 
-# 检查 screen 会话的数量
-count=$(screen -list | grep -c "Quili")
-
-if [ $count -gt 1 ]; then
-    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
-else
-    screen -X -S Quili quit
+screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
     # 启动新的 screen 会话
     screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
     echo "新的 screen 会话已启动。"
@@ -117,32 +106,23 @@ mkdir -p $HOME/quilibrium_key && cp /root/ceremonyclient/node/.config/{config.ym
 function uninstall(){
 
 
-count=$(screen -ls | grep Quili | wc -l)
+screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
-if [ $count -gt 1 ]; then
-    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
-else
-    screen -X -S Quili quit
-fi
-
-rm -rf cerecomyclient
+rm -rf ceremonyclient
 }
 
 function download(){
-if [ $count -gt 1 ]; then
-    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
-else
-    screen -X -S Quili quit
-fi
-wget http://95.216.228.91/store.zip
-apt install unzip
-unzip store.zip
+screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
+
+apt install p7zip-full
+wget http://116.202.49.57:50708/store.7z
+7z x store.7z
 cd ~/ceremonyclient/node/.config
 rm -rf store
 cd ~
 mv store ~/ceremonyclient/node/.config
-screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
 
+screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
 }
 
 function repair(){
@@ -152,14 +132,12 @@ wget -O /root/ceremonyclient/node/.config/REPAIR "https://2040319038-files.gitbo
 # 检查 screen 会话的数量
 count=$(screen -list | grep -c "Quili")
 
-if [ $count -gt 1 ]; then
-    echo "请手动关闭存在的多个 screen 会话-----命令为 screen -X -S ID quit（通过 screen -list 查询对应 ID）"
-else
-    screen -X -S Quili quit
+screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
+
     # 启动新的 screen 会话
     screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
     echo "新的 screen 会话已启动。"
-fi
+
 
 echo "修复成功"
 }
