@@ -94,7 +94,6 @@ screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} 
     # 启动新的 screen 会话
     screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
     echo "新的 screen 会话已启动。"
-fi
 }
 
 function backup(){
