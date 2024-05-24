@@ -51,14 +51,13 @@ gvm use go1.17.13
 export GOROOT_BOOTSTRAP=$GOROOT
 gvm install go1.20.2
 
+# 克隆仓库
+git clone https://github.com/quilibriumnetwork/ceremonyclient
+
 cd $HOME/ceremonyclient/client 
 source /root/.gvm/scripts/gvm && gvm use go1.20.2
 go mod tidy
 GOEXPERIMENT=arenas go build -o /root/go/bin/qclient main.go
-
-
-# 克隆仓库
-git clone https://github.com/quilibriumnetwork/ceremonyclient
 
 # 进入ceremonyclient/node目录
 cd $HOME/ceremonyclient/node 
@@ -121,7 +120,7 @@ else
     screen -X -S Quili quit
 fi
 
-rm -rf cerecomyclient
+rm -rf ceremonyclient
 }
 
 function download(){
