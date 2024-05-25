@@ -63,10 +63,10 @@ GOEXPERIMENT=arenas go build -o /root/go/bin/qclient main.go
 cd $HOME/ceremonyclient/node 
 go mod tidy
 # 赋予执行权限
-chmod +x poor_mans_cd.sh
+chmod +x release_autorun.sh
 
 # 创建一个screen会话并运行命令
-screen -dmS Quili bash -c './poor_mans_cd.sh'
+screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
 
 }
 
@@ -92,7 +92,7 @@ function restart(){
 
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
     # 启动新的 screen 会话
-    screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
     echo "新的 screen 会话已启动。"
 }
 
@@ -113,28 +113,26 @@ rm -rf ceremonyclient
 function download(){
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
-apt install p7zip-full
-wget http://116.202.49.57:50708/store.7z
-7z x store.7z
+wget -O https://snapshots.cherryservers.com/quilibrium/store.zip
+apt install unzip
+unzip store.zip
 cd ~/ceremonyclient/node/.config
 rm -rf store
 cd ~
 mv store ~/ceremonyclient/node/.config
 
-screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
 }
 
 function repair(){
 
-wget -O /root/ceremonyclient/node/.config/REPAIR "https://2040319038-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FwYHoFaVat0JopE1zxmDI%2Fuploads%2FJL4Ytu5OIWHbisIbZs8v%2FREPAIR?alt=media&token=d080b681-ee26-470c-baae-4723bcf018a3"
+wget -O /root/ceremonyclient/node/.config/REPAIR "https://snapshots.cherryservers.com/quilibrium/REPAIR"
 
-# 检查 screen 会话的数量
-count=$(screen -list | grep -c "Quili")
 
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
     # 启动新的 screen 会话
-    screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./poor_mans_cd.sh'
+    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
     echo "新的 screen 会话已启动。"
 
 
@@ -155,6 +153,16 @@ function go_mod() {
     GOEXPERIMENT=arenas go build -o /root/go/bin/qclient main.go
 }
 
+function pow() {
+    cd $HOME/ceremonyclient/node
+    git pull
+    git checkout release
+    screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
+    # 启动新的 screen 会话
+    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+    echo "新的 screen 会话已启动。"
+}
+
 # 主菜单
 function main_menu() {
     clear
@@ -172,11 +180,12 @@ function main_menu() {
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 下载快照(直达41w高度后继续自动同步)"
+    echo "7. 下载快照(直达45w高度后继续自动同步)"
     echo "8. 修复卡块"
     echo "9. 查询余额(下版本更新余额)"
     echo "10. 更新go模块(查询余额go模块报错请执行该步骤)"
-    read -p "请输入选项（1-9）: " OPTION
+    echo "11. 更新pow版本"
+    read -p "请输入选项（1-11）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -189,6 +198,7 @@ function main_menu() {
     8) repair ;;
     9) check_balance ;;
     10) go_mod ;;
+    11) pow ;;
     *) echo "无效选项。" ;;
     esac
 }
