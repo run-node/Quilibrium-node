@@ -180,11 +180,11 @@ function main_menu() {
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 下载快照(直达45w高度后继续自动同步)"
+    echo "7. 下载快照(目前不需要同步快照)"
     echo "8. 修复卡块"
-    echo "9. 查询余额(下版本更新余额)"
+    echo "9. 查询余额(暂未修复)"
     echo "10. 更新go模块(查询余额go模块报错请执行该步骤)"
-    echo "11. 更新pow版本"
+    echo "11. 更新pow版本(旧版本请执行该步骤)"
     read -p "请输入选项（1-11）: " OPTION
 
     case $OPTION in
