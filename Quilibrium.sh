@@ -61,12 +61,12 @@ GOEXPERIMENT=arenas go build -o /root/go/bin/qclient main.go
 
 # 进入ceremonyclient/node目录
 cd $HOME/ceremonyclient/node 
-go mod tidy
+git switch release
 # 赋予执行权限
 chmod +x release_autorun.sh
 
 # 创建一个screen会话并运行命令
-screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+screen -dmS Quili bash -c './release_autorun.sh'
 
 }
 
