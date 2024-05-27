@@ -141,15 +141,15 @@ echo "修复成功"
 # 查询币余额
 function check_balance() {
     source /root/.gvm/scripts/gvm && gvm use go1.20.2
-    cd $HOME/ceremonyclient/node/ && GOEXPERIMENT=arenas go run ./... -balance
+    qclient token balance
 }
 
 # 查询币余额
 function go_mod() {
-    cd $HOME/ceremonyclient/client 
     source /root/.gvm/scripts/gvm && gvm use go1.20.2
-    go mod tidy
-    GOEXPERIMENT=arenas go build -o /root/go/bin/qclient main.go
+    cd ceremonyclient/client
+    GOEXPERIMENT=arenas go build -o qclient main.go
+    sudo cp $HOME/ceremonyclient/client/qclient /usr/local/bin
 }
 
 function pow() {
@@ -179,12 +179,10 @@ function main_menu() {
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 下载快照(目前不需要同步快照)"
-    echo "8. 修复卡块"
-    echo "9. 查询余额(暂未修复)"
-    echo "10. 更新go模块(查询余额go模块报错请执行该步骤)"
-    echo "11. 更新pow版本(旧版本请执行该步骤)"
-    read -p "请输入选项（1-11）: " OPTION
+    echo "7. 修复卡块"
+    echo "8. 查询余额(下版本更新余额)"
+    echo "9. 修复余额查询"
+    read -p "请输入选项（1-9）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -193,11 +191,9 @@ function main_menu() {
     4) restart ;;
     5) backup ;;
     6) uninstall ;;
-    7) download ;;
-    8) repair ;;
-    9) check_balance ;;
-    10) go_mod ;;
-    11) pow ;;
+    7) repair ;;
+    8) check_balance ;;
+    9) go_mod ;;
     *) echo "无效选项。" ;;
     esac
 }
