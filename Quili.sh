@@ -173,11 +173,9 @@ function main_menu() {
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 下载快照(直达41w高度后继续自动同步)"
-    echo "8. 修复卡块"
-    echo "9. 查询余额(下版本更新余额)"
-    echo "10. 更新go模块(查询余额go模块报错请执行该步骤)"
-    read -p "请输入选项（1-9）: " OPTION
+    echo "7. 修复卡块"
+    echo "8. 查询余额(下版本更新余额)"
+    read -p "请输入选项（1-8）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -186,10 +184,8 @@ function main_menu() {
     4) restart ;;
     5) backup ;;
     6) uninstall ;;
-    7) download ;;
-    8) repair ;;
-    9) check_balance ;;
-    10) go_mod ;;
+    7) repair ;;
+    8) check_balance ;;
     *) echo "无效选项。" ;;
     esac
 }
