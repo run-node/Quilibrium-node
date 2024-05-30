@@ -52,7 +52,7 @@ export GOROOT_BOOTSTRAP=$GOROOT
 gvm install go1.20.2
 
 # 克隆仓库
-git clone https://github.com/quilibriumnetwork/ceremonyclient
+git clone https://source.quilibrium.com/quilibrium/ceremonyclient
 
 cd $HOME/ceremonyclient/client 
 source /root/.gvm/scripts/gvm && gvm use go1.20.2
