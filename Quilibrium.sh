@@ -189,7 +189,7 @@ function main_menu() {
     echo "7. 修复卡块"
     echo "8. 查询余额(下版本更新余额)"
     echo "9. 修复余额查询"
-    echo "9. 更新版本"
+    echo "10. 更新版本"
     read -p "请输入选项（1-10）: " OPTION
 
     case $OPTION in
@@ -202,7 +202,7 @@ function main_menu() {
     7) repair ;;
     8) check_balance ;;
     9) go_mod ;;
-    9) update ;;
+    10) update ;;
     *) echo "无效选项。" ;;
     esac
 }
