@@ -52,7 +52,7 @@ export GOROOT_BOOTSTRAP=$GOROOT
 gvm install go1.20.2
 
 # 克隆仓库
-git clone https://github.com/quilibriumnetwork/ceremonyclient
+git clone https://source.quilibrium.com/quilibrium/ceremonyclient.git
 
 cd $HOME/ceremonyclient/client 
 source /root/.gvm/scripts/gvm && gvm use go1.20.2
@@ -162,6 +162,13 @@ function pow() {
     echo "新的 screen 会话已启动。"
 }
 
+function update(){
+cd ceremonyclient
+git remote -v
+git remote set-url origin https://source.quilibrium.com/quilibrium/ceremonyclient.git
+git remote -v
+echo "请重启节点"
+}
 # 主菜单
 function main_menu() {
     clear
@@ -182,7 +189,8 @@ function main_menu() {
     echo "7. 修复卡块"
     echo "8. 查询余额(下版本更新余额)"
     echo "9. 修复余额查询"
-    read -p "请输入选项（1-9）: " OPTION
+    echo "9. 更新版本"
+    read -p "请输入选项（1-10）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -194,6 +202,7 @@ function main_menu() {
     7) repair ;;
     8) check_balance ;;
     9) go_mod ;;
+    9) update ;;
     *) echo "无效选项。" ;;
     esac
 }
