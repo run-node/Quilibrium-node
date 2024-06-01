@@ -37,30 +37,50 @@ echo "sysctl配置已重新加载"
 sudo apt update && sudo apt -y upgrade 
 
 # 安装wget、screen和git等组件
-sudo apt install git ufw bison screen binutils gcc make bsdmainutils -y
+sudo apt install git ufw bison screen binutils gcc make bsdmainutils cpulimit -y
 
 # 安装GVM
 bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 source /root/.gvm/scripts/gvm
 
+# 获取系统架构
+ARCH=$(uname -m)
+
+# 安装并使用go1.4作为bootstrap
 gvm install go1.4 -B
 gvm use go1.4
 export GOROOT_BOOTSTRAP=$GOROOT
-gvm install go1.17.13
-gvm use go1.17.13
-export GOROOT_BOOTSTRAP=$GOROOT
-gvm install go1.20.2
+
+# 根据系统架构安装相应的Go版本
+if [ "$ARCH" = "x86_64" ]; then
+  gvm install go1.17.13
+  gvm use go1.17.13
+  export GOROOT_BOOTSTRAP=$GOROOT
+
+  gvm install go1.20.2
+  gvm use go1.20.2
+elif [ "$ARCH" = "aarch64" ]; then
+  gvm install go1.17.13 -B
+  gvm use go1.17.13
+  export GOROOT_BOOTSTRAP=$GOROOT
+
+  gvm install go1.20.2 -B
+  gvm use go1.20.2
+else
+  echo "Unsupported architecture: $ARCH"
+  exit 1
+fi
 
 # 克隆仓库
-git clone https://source.quilibrium.com/quilibrium/ceremonyclient.git
+git clone https://github.com/a3165458/ceremonyclient.git
 
-cd $HOME/ceremonyclient/client 
-source /root/.gvm/scripts/gvm && gvm use go1.20.2
+cd $HOME/ceremonyclient/client
 go mod tidy
-GOEXPERIMENT=arenas go build -o /root/go/bin/qclient main.go
+GOEXPERIMENT=arenas go build -o qclient main.go
+sudo cp $HOME/ceremonyclient/client/qclient /usr/local/bin
 
 # 进入ceremonyclient/node目录
-cd $HOME/ceremonyclient/node 
+cd $HOME/ceremonyclient/node
 git switch release
 # 赋予执行权限
 chmod +x release_autorun.sh
@@ -74,12 +94,12 @@ screen -dmS Quili bash -c './release_autorun.sh'
 # 查看节点日志
 function check_service_status() {
     count=$(screen -ls | grep Quili | wc -l)
-    
+
     if [ $count -gt 1 ]; then
         echo "存在多个Quili会话----请进入screen查询后手动关闭多余的screen(screen -list查询  screen -X -S ID quit关闭会话)"
-    fi 
+    fi
     screen -r Quili
-   
+
 }
 
 function check_address(){
@@ -140,7 +160,6 @@ echo "修复成功"
 
 # 查询币余额
 function check_balance() {
-    source /root/.gvm/scripts/gvm && gvm use go1.20.2
     qclient token balance
 }
 
@@ -194,7 +213,7 @@ function main_menu() {
 
     case $OPTION in
     1) install_node ;;
-    2) check_service_status ;; 
+    2) check_service_status ;;
     3) check_address ;;
     4) restart ;;
     5) backup ;;
