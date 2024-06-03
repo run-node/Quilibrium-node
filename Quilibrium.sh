@@ -160,7 +160,24 @@ echo "修复成功"
 
 # 查询币余额
 function check_balance() {
-    qclient token balance
+cd ceremonyclient/client
+GOEXPERIMENT=arenas go build -o qclient main.go
+sudo cp $HOME/ceremonyclient/client/qclient /usr/local/bin
+
+qclient token balance
+
+}
+
+function Unlock_performance() {
+cd ceremonyclient/node
+git switch release-non-datacenter
+
+# 赋予执行权限
+chmod +x release_autorun.sh
+
+# 创建一个 screen 会话并运行命令
+screen -dmS Quili bash -c './release_autorun.sh'
+
 }
 
 # 查询币余额
@@ -188,6 +205,12 @@ git remote set-url origin https://github.com/a3165458/ceremonyclient.git
 git remote -v
 echo "请重启节点"
 }
+function update_script() {
+    SCRIPT_URL="https://raw.githubusercontent.com/a3165458/Quilibrium/main/Quili.sh"
+    curl -o $SCRIPT_PATH $SCRIPT_URL
+    chmod +x $SCRIPT_PATH
+    echo "脚本已更新。请退出脚本后，执行bash Quili.sh 重新运行此脚本。"
+}
 # 主菜单
 function main_menu() {
     clear
@@ -208,8 +231,10 @@ function main_menu() {
     echo "7. 修复卡块"
     echo "8. 查询余额(下版本更新余额)"
     echo "9. 修复余额查询"
-    echo "10. 更新版本"
-    read -p "请输入选项（1-10）: " OPTION
+    echo "10. 更新版本git源"
+    echo "11. 解锁物理机性能"
+    echo "12. 更新脚本"
+    read -p "请输入选项（1-12）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -222,6 +247,8 @@ function main_menu() {
     8) check_balance ;;
     9) go_mod ;;
     10) update ;;
+    11) Unlock_performance ;;
+    12) update_script ;;
     *) echo "无效选项。" ;;
     esac
 }
