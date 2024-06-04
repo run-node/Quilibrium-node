@@ -216,15 +216,10 @@ function change(){
 
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 read -p "请输入需要使用的核心数量（例如1-26）: " cores
-# 检查用户输入是否为空
-if [ -z "$cores" ]; then
-  echo "核心数量不能为空"
-  exit 1
-fi
 
-    # 启动新的 screen 会话
-    screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node &&taskset -c $cores ./release_autorun.sh'
-    echo "已启动 screen 会话，使用核心：$cores"
+# 启动新的 screen 会话
+screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node &&taskset -c $cores ./release_autorun.sh'
+echo "已启动 screen 会话，使用核心：$cores"
 }
 
 # 主菜单
