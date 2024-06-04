@@ -111,7 +111,7 @@ function restart(){
 
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
     # 启动新的 screen 会话
-    screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node && ./release_autorun.sh'
+    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
     echo "新的 screen 会话已启动。"
 }
 
