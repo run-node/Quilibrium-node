@@ -223,55 +223,49 @@ screen -r Quili
 }
 
 
+command_exists() {
+    command -v "$1" &> /dev/null
+}
+
+
 function grpcurl(){
-    # Terminate detached screen sessions named 'Qui'
     screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
-    # Start a new screen session named 'Quili'
+    # 启动新的 screen 会话
     screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
-
-    # Modify configuration files
     sed -i 's#/ip4/0.0.0.0/udp/8336/quic#/ip4/0.0.0.0/tcp/8336#g' /root/ceremonyclient/node/.config/config.yml
     sed -i 's|listenGrpcMultiaddr: ""|listenGrpcMultiaddr: "/ip4/127.0.0.1/tcp/8337"|' /root/ceremonyclient/node/.config/config.yml
     sed -i 's|listenRESTMultiaddr: ""|listenRESTMultiaddr: "/ip4/127.0.0.1/tcp/8338"|' /root/ceremonyclient/node/.config/config.yml
 
-    # Check if bsdmainutils is installed
-    if ! dpkg-query -W -f='${Status}' bsdmainutils 2>/dev/null | grep -q "install ok installed"; then
-        sudo apt update
-        sudo apt install -y bsdmainutils
-    else
-        echo "bsdmainutils is already installed."
-    fi
-
-    # Check if cpulimit is installed
-    if ! dpkg-query -W -f='${Status}' cpulimit 2>/dev/null | grep -q "install ok installed"; then
-        sudo apt update
+        # Install cpulimit if not installed
+    if ! command_exists cpulimit; then
         sudo apt install -y cpulimit
     else
-        echo "cpulimit is already installed."
+        echo "cpulimit is already installed"
     fi
 
-    # Check if gawk is installed
-    if ! dpkg-query -W -f='${Status}' gawk 2>/dev/null | grep -q "install ok installed"; then
-        sudo apt update
+    # Install gawk if not installed
+    if ! command_exists gawk; then
         sudo apt install -y gawk
     else
-        echo "gawk is already installed."
+        echo "gawk is already installed"
     fi
 
-    # Check if grpcurl is installed
-    if ! dpkg-query -W -f='${Status}' grpcurl 2>/dev/null | grep -q "install ok installed"; then
+    # Install grpcurl if not installed
+    if ! command_exists grpcurl; then
         wget -P /tmp https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_amd64.deb
-        sudo apt-get install /tmp/grpcurl_1.9.1_linux_amd64.deb
+        sudo apt-get install -y /tmp/grpcurl_1.9.1_linux_amd64.deb
+        rm /tmp/grpcurl_1.9.1_linux_amd64.deb
     else
-        echo "grpcurl is already installed."
+        echo "grpcurl is already installed"
     fi
-
-    grpcurl --version
     screen -r Quili
 }
 
+function check_grpcurl(){
+grep "listenMultiaddr\|listenGrpcMultiaddr\|listenRESTMultiaddr" /root/ceremonyclient/node/.config/config.yml | awk -F ": " '{print $1,$2}'
 
+}
 
 # 主菜单
 function main_menu() {
@@ -290,15 +284,16 @@ function main_menu() {
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 修复卡块"
+    echo "7. 修复卡块(失效)"
     echo "8. 查询余额(下版本更新余额)"
-    echo "9. 修复余额查询"
+    echo "9. 修复余额查询(下版本更新余额)"
     echo "10. 更新版本git源"
     echo "11. 解锁物理机性能"
     echo "12. 更新脚本"
     echo "13. 设置核心数量"
     echo "14. 更新grpcurl"
-    read -p "请输入选项（1-13）: " OPTION
+    echo "15. 查询grcurl端口"
+    read -p "请输入选项（1-15）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -315,6 +310,7 @@ function main_menu() {
     12) update_script ;;
     13) change ;;
     14) grpcurl ;;
+    15) check_grpcurl ;;
     *) echo "无效选项。" ;;
     esac
 }
