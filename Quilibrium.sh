@@ -84,6 +84,7 @@ cd $HOME/ceremonyclient/node
 git switch release
 # 赋予执行权限
 chmod +x release_autorun.sh
+screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
 # 创建一个screen会话并运行命令
 screen -dmS Quili bash -c './release_autorun.sh'
@@ -248,6 +249,7 @@ function main_menu() {
     echo "11. 解锁物理机性能"
     echo "12. 更新脚本"
     echo "13. 设置核心数量"
+    echo "14. 更新grpcurl"
     read -p "请输入选项（1-13）: " OPTION
 
     case $OPTION in
