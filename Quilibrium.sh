@@ -224,51 +224,52 @@ screen -r Quili
 
 
 function grpcurl(){
-screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
+    screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
+    # 启动新的 screen 会话
+    screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
+    sed -i 's#/ip4/0.0.0.0/udp/8336/quic#/ip4/0.0.0.0/tcp/8336#g' /root/ceremonyclient/node/.config/config.yml
+    sed -i 's|listenGrpcMultiaddr: ""|listenGrpcMultiaddr: "/ip4/127.0.0.1/tcp/8337"|' ./ceremonyclient/node/.config/config.yml
+    sed -i 's|listenRESTMultiaddr: ""|listenRESTMultiaddr: "/ip4/127.0.0.1/tcp/8338"|' ./ceremonyclient/node/.config/config.yml
 
-# 启动新的 screen 会话
-screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
-sed -i 's#/ip4/0.0.0.0/udp/8336/quic#/ip4/0.0.0.0/tcp/8336#g' /root/ceremonyclient/node/.config/config.yml
-sed -i 's|listenGrpcMultiaddr: ""|listenGrpcMultiaddr: "/ip4/127.0.0.1/tcp/8337"|' ./ceremonyclient/node/.config/config.yml
-sed -i 's|listenRESTMultiaddr: ""|listenRESTMultiaddr: "/ip4/127.0.0.1/tcp/8338"|' ./ceremonyclient/node/.config/config.yml
-#!/bin/bash
+    #!/bin/bash
 
-# 判断是否已经安装 bsdmainutils
-if ! dpkg -l bsdmainutils >/dev/null; then
-    sudo apt update
-    sudo apt install -y bsdmainutils
-else
-    echo "bsdmainutils is already installed."
-fi
+    # 判断是否已经安装 bsdmainutils
+    if ! dpkg-query -W -f='${Status}' bsdmainutils 2>/dev/null | grep "ok installed"; then
+        sudo apt update
+        sudo apt install -y bsdmainutils
+    else
+        echo "bsdmainutils is already installed."
+    fi
 
-# 判断是否已经安装 cpulimit
-if ! dpkg -l cpulimit >/dev/null; then
-    sudo apt update
-    sudo apt install -y cpulimit
-else
-    echo "cpulimit is already installed."
-fi
+    # 判断是否已经安装 cpulimit
+    if ! dpkg-query -W -f='${Status}' cpulimit 2>/dev/null | grep "ok installed"; then
+        sudo apt update
+        sudo apt install -y cpulimit
+    else
+        echo "cpulimit is already installed."
+    fi
 
-# 判断是否已经安装 gawk
-if ! dpkg -l gawk >/dev/null; then
-    sudo apt update
-    sudo apt install -y gawk
-else
-    echo "gawk is already installed."
-fi
+    # 判断是否已经安装 gawk
+    if ! dpkg-query -W -f='${Status}' gawk 2>/dev/null | grep "ok installed"; then
+        sudo apt update
+        sudo apt install -y gawk
+    else
+        echo "gawk is already installed."
+    fi
 
-# 判断是否已经安装 grpcurl
-if ! dpkg -l grpcurl >/dev/null; then
-    wget -P /tmp https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_amd64.deb
-    sudo apt-get install /tmp/grpcurl_1.9.1_linux_amd64.deb
-else
-    echo "grpcurl is already installed."
-fi
+    # 判断是否已经安装 grpcurl
+    if ! dpkg-query -W -f='${Status}' grpcurl 2>/dev/null | grep "ok installed"; then
+        wget -P /tmp https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_amd64.deb
+        sudo apt-get install /tmp/grpcurl_1.9.1_linux_amd64.deb
+    else
+        echo "grpcurl is already installed."
+    fi
 
-grpcurl --version
-screen -r Quili
+    grpcurl --version
+    screen -r Quili
 }
+
 
 # 主菜单
 function main_menu() {
