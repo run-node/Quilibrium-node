@@ -155,6 +155,8 @@ screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} 
 
 
 echo "修复成功"
+screen -r Quili
+
 }
 
 # 查询币余额
@@ -176,7 +178,7 @@ chmod +x release_autorun.sh
 
 # 创建一个 screen 会话并运行命令
 screen -dmS Quili bash -c './release_autorun.sh'
-
+screen -r Quili
 }
 
 # 查询币余额
@@ -209,6 +211,8 @@ function update_script() {
     curl -o $SCRIPT_PATH $SCRIPT_URL
     chmod +x $SCRIPT_PATH
     echo "脚本已更新。请退出脚本后，执行bash Quili.sh 重新运行此脚本。"
+    screen -r Quili
+
 }
 
 function change(){
