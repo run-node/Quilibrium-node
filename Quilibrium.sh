@@ -218,7 +218,7 @@ screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} 
 read -p "请输入需要使用的核心数量（例如1-26）: " cores
 
 # 启动新的 screen 会话
-screen -dmS Quili bash -c 'cd ~/ceremonyclient/node &&taskset -c $cores ./release_autorun.sh'
+screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node &&taskset -c $cores ./release_autorun.sh'
 echo "已启动 screen 会话，使用核心：$cores"
 }
 
