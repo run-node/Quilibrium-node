@@ -222,6 +222,23 @@ echo "已启动 screen 会话，使用核心：$cores"
 screen -r Quili
 }
 
+
+function grpcurl(){
+screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
+
+
+# 启动新的 screen 会话
+screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
+sed -i 's#/ip4/0.0.0.0/udp/8336/quic#/ip4/0.0.0.0/tcp/8336#g' /root/ceremonyclient/node/.config/config.yml
+sed -i 's|listenGrpcMultiaddr: ""|listenGrpcMultiaddr: "/ip4/127.0.0.1/tcp/8337"|' ./ceremonyclient/node/.config/config.yml
+sed -i 's|listenRESTMultiaddr: ""|listenRESTMultiaddr: "/ip4/127.0.0.1/tcp/8338"|' ./ceremonyclient/node/.config/config.yml
+wget -P /tmp https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_amd64.deb
+sudo apt-get install /tmp/grpcurl_1.9.1_linux_amd64.deb
+grpcurl --version
+apt install bsdmainutils cpulimit gawk
+screen -r Quili
+}
+
 # 主菜单
 function main_menu() {
     clear
@@ -263,6 +280,7 @@ function main_menu() {
     11) Unlock_performance ;;
     12) update_script ;;
     13) change ;;
+    14) grpcurl ;;
     *) echo "无效选项。" ;;
     esac
 }
