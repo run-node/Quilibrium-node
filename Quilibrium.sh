@@ -211,6 +211,22 @@ function update_script() {
     chmod +x $SCRIPT_PATH
     echo "脚本已更新。请退出脚本后，执行bash Quili.sh 重新运行此脚本。"
 }
+
+function change(){
+
+screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
+read -p "请输入需要使用的核心数量（例如1-26）: " cores
+# 检查用户输入是否为空
+if [ -z "$cores" ]; then
+  echo "核心数量不能为空"
+  exit 1
+fi
+
+    # 启动新的 screen 会话
+    screen -dmS Quili bash -c 'source /root/.gvm/scripts/gvm && gvm use go1.20.2 && cd ~/ceremonyclient/node &&taskset -c $cores ./release_autorun.sh'
+    echo "已启动 screen 会话，使用核心：$cores"
+}
+
 # 主菜单
 function main_menu() {
     clear
@@ -234,7 +250,8 @@ function main_menu() {
     echo "10. 更新版本git源"
     echo "11. 解锁物理机性能"
     echo "12. 更新脚本"
-    read -p "请输入选项（1-12）: " OPTION
+    echo "13. 设置核心数量"
+    read -p "请输入选项（1-13）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -249,6 +266,7 @@ function main_menu() {
     10) update ;;
     11) Unlock_performance ;;
     12) update_script ;;
+    13) change ;;
     *) echo "无效选项。" ;;
     esac
 }
