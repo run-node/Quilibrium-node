@@ -37,9 +37,9 @@ echo "sysctl配置已重新加载"
 sudo apt update && sudo apt -y upgrade 
 
 # 安装wget、screen和git等组件
-sudo apt install git ufw bison screen binutils gcc make bsdmainutils cpulimit -y
+sudo apt install git ufw bison screen binutils gcc make bsdmainutils cpulimit gawk -y
 
-# 安装GVM
+# 下载并安装gvm
 bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 source /root/.gvm/scripts/gvm
 
@@ -74,16 +74,13 @@ fi
 # 克隆仓库
 git clone https://github.com/a3165458/ceremonyclient.git
 
-cd $HOME/ceremonyclient/client
-go mod tidy
-GOEXPERIMENT=arenas go build -o qclient main.go
-sudo cp $HOME/ceremonyclient/client/qclient /usr/local/bin
-
 # 进入ceremonyclient/node目录
-cd $HOME/ceremonyclient/node
+cd ~/ceremonyclient/node 
 git switch release
+
 # 赋予执行权限
 chmod +x release_autorun.sh
+
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
 # 创建一个screen会话并运行命令
