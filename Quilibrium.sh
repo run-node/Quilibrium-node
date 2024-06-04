@@ -232,7 +232,6 @@ screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
 sed -i 's#/ip4/0.0.0.0/udp/8336/quic#/ip4/0.0.0.0/tcp/8336#g' /root/ceremonyclient/node/.config/config.yml
 sed -i 's|listenGrpcMultiaddr: ""|listenGrpcMultiaddr: "/ip4/127.0.0.1/tcp/8337"|' ./ceremonyclient/node/.config/config.yml
 sed -i 's|listenRESTMultiaddr: ""|listenRESTMultiaddr: "/ip4/127.0.0.1/tcp/8338"|' ./ceremonyclient/node/.config/config.yml
-wget -P /tmp https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_amd64.deb
 #!/bin/bash
 
 # 判断是否已经安装 bsdmainutils
@@ -261,6 +260,7 @@ fi
 
 # 判断是否已经安装 grpcurl
 if ! dpkg -l grpcurl >/dev/null; then
+    wget -P /tmp https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_amd64.deb
     sudo apt-get install /tmp/grpcurl_1.9.1_linux_amd64.deb
 else
     echo "grpcurl is already installed."
