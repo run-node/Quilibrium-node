@@ -235,8 +235,6 @@ command_exists() {
 function grpcurl(){
     screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
-    # 启动新的 screen 会话
-    screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
     sed -i 's#/ip4/0.0.0.0/udp/8336/quic#/ip4/0.0.0.0/tcp/8336#g' /root/ceremonyclient/node/.config/config.yml
     sed -i 's|listenGrpcMultiaddr: ""|listenGrpcMultiaddr: "/ip4/127.0.0.1/tcp/8337"|' /root/ceremonyclient/node/.config/config.yml
     sed -i 's|listenRESTMultiaddr: ""|listenRESTMultiaddr: "/ip4/127.0.0.1/tcp/8338"|' /root/ceremonyclient/node/.config/config.yml
@@ -263,6 +261,8 @@ function grpcurl(){
     else
         echo "grpcurl is already installed"
     fi
+     # 启动新的 screen 会话
+    screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
     screen -r Quili
 }
 
