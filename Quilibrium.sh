@@ -200,12 +200,21 @@ function pow() {
 }
 
 function update(){
-cd ceremonyclient
-git remote -v
-git remote set-url origin https://github.com/a3165458/ceremonyclient.git
-git remote -v
-echo "请重启节点"
+screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
+cd $HOME/ceremonyclient/node
+git remote set-url origin https://source.quilibrium.com/quilibrium/ceremonyclient.git
+git pull
+git checkout release-cdn
+screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
+echo "已启动 screen 会话，使用核心：$cores"
+screen -r Quili
 }
+
+function check_balance(){
+cd $HOME/ceremonyclient/node && ./node-1.4.19-linux-amd64 --node-info
+
+}
+
 function update_script() {
     SCRIPT_URL="https://raw.githubusercontent.com/a3165458/Quilibrium/main/Quili.sh"
     curl -o $SCRIPT_PATH $SCRIPT_URL
@@ -288,16 +297,15 @@ function main_menu() {
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 修复卡块(失效)"
-    echo "8. 查询余额(下版本更新余额)"
-    echo "9. 修复余额查询(下版本更新余额)"
-    echo "10. 更新版本git源"
-    echo "11. 解锁物理机性能"
-    echo "12. 更新脚本"
-    echo "13. 设置核心数量"
-    echo "14. 更新grpcurl"
-    echo "15. 查询grcurl端口"
-    read -p "请输入选项（1-15）: " OPTION
+    echo "7. 查询余额(下版本更新余额)"
+    echo "8. 更新版本git源"
+    echo "9. 解锁物理机性能"
+    echo "10. 设置核心数量"
+    echo "11. 更新grpcurl"
+    echo "12. 查询grcurl端口"
+    echo "13. 手动更新19版本"
+    echo "14. 查询19版本pow实时余额"
+    read -p "请输入选项（1-14）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -306,15 +314,14 @@ function main_menu() {
     4) restart ;;
     5) backup ;;
     6) uninstall ;;
-    7) repair ;;
-    8) check_balance ;;
-    9) go_mod ;;
-    10) update ;;
-    11) Unlock_performance ;;
-    12) update_script ;;
-    13) change ;;
-    14) grpcurl ;;
-    15) check_grpcurl ;;
+    7) check_balance ;;
+    8) update ;;
+    9) Unlock_performance ;;
+    10) change ;;
+    11) grpcurl ;;
+    12) check_grpcurl ;;
+    13) update ;;
+    14) check_balance ;;
     *) echo "无效选项。" ;;
     esac
 }
