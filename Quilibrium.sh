@@ -206,8 +206,7 @@ git remote set-url origin https://source.quilibrium.com/quilibrium/ceremonyclien
 git pull
 git checkout release-cdn
 screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
-echo "已启动 screen 会话，使用核心：$cores"
-screen -r Quili
+echo "已启动 screen 会话，清前往查看日志"
 }
 
 function check_balance(){
