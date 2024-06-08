@@ -271,7 +271,7 @@ function grpcurl(){
     fi
      # 启动新的 screen 会话
     screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
-    screen -r Quili
+    echo "已启动 screen 会话，清前往查看日志"
 }
 
 function check_grpcurl(){
