@@ -101,7 +101,7 @@ function check_service_status() {
 }
 
 function check_address(){
-cd ~/ceremonyclient/node && ./node-1.4.18-linux-amd64 -peer-id
+cd ~/ceremonyclient/node && ./node-1.4.19-linux-amd64 -peer-id
 
 }
 
