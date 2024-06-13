@@ -39,6 +39,10 @@ sudo apt update && sudo apt -y upgrade
 # 安装wget、screen和git等组件
 sudo apt install git ufw bison screen binutils gcc make bsdmainutils cpulimit gawk -y
 
+wget -P /tmp https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_amd64.deb
+sudo apt-get install -y /tmp/grpcurl_1.9.1_linux_amd64.deb
+rm /tmp/grpcurl_1.9.1_linux_amd64.deb
+
 # 下载并安装gvm
 bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 source /root/.gvm/scripts/gvm
@@ -296,15 +300,12 @@ function main_menu() {
     echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 查询余额(下版本更新余额)"
-    echo "8. 更新版本git源"
-    echo "9. 解锁物理机性能"
-    echo "10. 设置核心数量"
-    echo "11. 更新grpcurl"
-    echo "12. 查询grcurl端口"
-    echo "13. 手动更新19版本"
-    echo "14. 查询19版本pow实时余额"
-    read -p "请输入选项（1-14）: " OPTION
+    echo "7. 查询余额(20版本更新)"
+    echo "8. 更新grpcurl"
+    echo "9. 查询grcurl端口"
+    echo "10. 手动更新19版本"
+    echo "11. 查询19版本pow实时余额"
+    read -p "请输入选项（1-11）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -314,13 +315,10 @@ function main_menu() {
     5) backup ;;
     6) uninstall ;;
     7) check_balance ;;
-    8) update ;;
-    9) Unlock_performance ;;
-    10) change ;;
-    11) grpcurl ;;
-    12) check_grpcurl ;;
-    13) update ;;
-    14) check_balance ;;
+    8) grpcurl ;;
+    9) check_grpcurl ;;
+    10) update ;;
+    11) check_balance ;;
     *) echo "无效选项。" ;;
     esac
 }
