@@ -72,7 +72,7 @@ else
 fi
 
 # 克隆仓库
-git clone https://github.com/a3165458/ceremonyclient.git
+git clone https://source.quilibrium.com/quilibrium/ceremonyclient.git
 
 # 进入ceremonyclient/node目录
 cd ~/ceremonyclient/node 
