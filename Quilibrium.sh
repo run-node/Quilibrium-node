@@ -308,7 +308,7 @@ function main_menu() {
     echo "1. 安装节点"
     echo "2. 查看节点日志（查看完请按Ctrl+A后按D退出Screen）"
     echo "3. 查询钱包地址"
-    echo "4. 重启节点（执行后请勿随意Ctrl+C中止程序）"
+    echo "4. 重启节点（暂时勿用 release_autorun版本）"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
     echo "7. 查询余额(20版本更新)"
