@@ -122,6 +122,8 @@ function r1(){
 
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
     # 启动新的 screen 会话
+    cd ~/ceremonyclient/node
+    git pull
     screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./node-1.4.20.1-linux-amd64'
     echo "新的 screen 会话已启动。"
     screen -r Quili
