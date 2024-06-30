@@ -113,7 +113,7 @@ function restart(){
 
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
     # 启动新的 screen 会话
-    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./node-1.4.20.1-linux-amd64'
+    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
     echo "新的 screen 会话已启动。"
     screen -r Quili
 }
@@ -122,7 +122,7 @@ function r1(){
 
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
     # 启动新的 screen 会话
-    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./node-1.4.20.1-linux-amd64'
     echo "新的 screen 会话已启动。"
     screen -r Quili
 }
