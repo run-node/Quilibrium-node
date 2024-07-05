@@ -113,6 +113,8 @@ function restart(){
 
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
     # 启动新的 screen 会话
+    cd ~/ceremonyclient/node
+    git pull
     screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
     echo "新的 screen 会话已启动。"
     screen -r Quili
@@ -315,9 +317,8 @@ function main_menu() {
     echo "8. 更新grpcurl"
     echo "9. 查询grcurl端口"
     echo "10. 手动更新19版本"
-    echo "11. 查询19版本pow实时余额"
-    echo "12. 重启节点(启动20.1分支)"
-    read -p "请输入选项（1-12）: " OPTION
+    echo "11. 查询pow实时余额"
+    read -p "请输入选项（1-11）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -331,7 +332,6 @@ function main_menu() {
     9) check_grpcurl ;;
     10) update ;;
     11) check_balance ;;
-    12) r1 ;;
     *) echo "无效选项。" ;;
     esac
 }
