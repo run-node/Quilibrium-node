@@ -227,7 +227,7 @@ echo "已启动 screen 会话，清前往查看日志"
 }
 
 function check_balance(){
-cd $HOME/ceremonyclient/node && ./node-1.4.19-linux-amd64 --node-info
+cd $HOME/ceremonyclient/node && ./node-1.4.21-linux-amd64 --node-info
 
 }
 
