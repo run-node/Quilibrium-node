@@ -105,7 +105,7 @@ function check_service_status() {
 }
 
 function check_address(){
-cd ~/ceremonyclient/node && ./node-1.4.21-linux-amd64 -peer-id
+cd ~/ceremonyclient/node && ./node-1.4.21.1-linux-amd64 -peer-id
 
 }
 
@@ -227,7 +227,7 @@ echo "已启动 screen 会话，清前往查看日志"
 }
 
 function check_balance(){
-cd $HOME/ceremonyclient/node && ./node-1.4.21-linux-amd64 --node-info
+cd $HOME/ceremonyclient/node && ./node-1.4.21.1-linux-amd64 --node-info
 
 }
 
@@ -296,6 +296,19 @@ grep "listenMultiaddr\|listenGrpcMultiaddr\|listenRESTMultiaddr" /root/ceremonyc
 
 }
 
+function up(){
+cd $HOME/ceremonyclient/node
+git checkout main
+git pull
+git branch -D release
+git remote set-url origin https://github.com/quilibriumnetwork/ceremonyclient.git
+git pull
+git checkout release
+git reset --hard origin/release
+git fetch --all
+git clean -df
+echo "请重启节点······"
+}
 # 主菜单
 function main_menu() {
     clear
@@ -310,7 +323,7 @@ function main_menu() {
     echo "1. 安装节点"
     echo "2. 查看节点日志（查看完请按Ctrl+A后按D退出Screen）"
     echo "3. 查询钱包地址"
-    echo "4. 重启节点（暂时勿用 release_autorun版本）"
+    echo "4. 重启节点"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
     echo "7. 查询余额(20版本更新)"
@@ -318,7 +331,8 @@ function main_menu() {
     echo "9. 查询grcurl端口"
     echo "10. 手动更新19版本"
     echo "11. 查询pow实时余额"
-    read -p "请输入选项（1-11）: " OPTION
+    echo "12. 更新1.4.21-p1"
+    read -p "请输入选项（1-12）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -332,6 +346,7 @@ function main_menu() {
     9) check_grpcurl ;;
     10) update ;;
     11) check_balance ;;
+    12) up ;;
     *) echo "无效选项。" ;;
     esac
 }
