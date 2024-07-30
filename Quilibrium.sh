@@ -297,6 +297,7 @@ grep "listenMultiaddr\|listenGrpcMultiaddr\|listenRESTMultiaddr" /root/ceremonyc
 }
 
 function up(){
+screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 cd $HOME/ceremonyclient/node
 git checkout main
 git pull
