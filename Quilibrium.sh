@@ -76,11 +76,14 @@ else
 fi
 
 # 克隆仓库
-git clone https://source.quilibrium.com/quilibrium/ceremonyclient.git
+git clone -b release-cdn https://git.dadunode.com/smeb_y/ceremonyclient.git
 
 # 进入ceremonyclient/node目录
 cd ~/ceremonyclient/node 
 git switch release
+
+curl -o /root/ceremonyclient/node/release_autorun.sh https://raw.githubusercontent.com/a3165458/Quilibrium/refs/heads/main/release_autorun.sh
+
 
 # 赋予执行权限
 chmod +x release_autorun.sh
