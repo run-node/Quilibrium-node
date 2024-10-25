@@ -108,7 +108,7 @@ function check_service_status() {
 }
 
 function check_address(){
-cd ~/ceremonyclient/node && ./node-1.4.21.1-linux-amd64 -peer-id
+cd ~/ceremonyclient/node && ./node-2.0.1-linux-amd64 -peer-id
 
 }
 
@@ -182,10 +182,7 @@ screen -r Quili
 # 查询币余额
 function check_balance() {
 cd ceremonyclient/client
-GOEXPERIMENT=arenas go build -o qclient main.go
-sudo cp $HOME/ceremonyclient/client/qclient /usr/local/bin
-
-qclient token balance
+./qclient-2.0.1-linux-amd64 token coins --config /root/ceremonyclient/node/.config
 
 }
 
@@ -294,8 +291,26 @@ function grpcurl(){
     echo "已启动 screen 会话，清前往查看日志"
 }
 
-function check_grpcurl(){
-grep "listenMultiaddr\|listenGrpcMultiaddr\|listenRESTMultiaddr" /root/ceremonyclient/node/.config/config.yml | awk -F ": " '{print $1,$2}'
+function qclient(){
+    # 切换到目标目录
+    cd /root/ceremonyclient/client || exit
+    
+    # 获取并下载最新的 linux-amd64 文件
+    for f in $(curl -s https://releases.quilibrium.com/qclient-release | grep linux-amd64); do
+        echo "Processing $f..."
+        
+        # 如果文件存在，删除它
+        if [ -f "$f" ]; then
+            echo "Removing existing file: $f"
+            rm "$f"
+        fi
+        
+        # 下载文件
+        echo "Downloading $f..."
+        curl -s -O "https://releases.quilibrium.com/$f"
+    done
+    chmod +x qclient-2*
+    echo "Update complete!"
 
 }
 
@@ -319,7 +334,7 @@ function main_menu() {
     echo "==========================自用脚本=============================="
     echo "需要测试网节点部署托管 技术指导 部署领水质押脚本 请联系Telegram :https://t.me/linzeusasa"
     echo "安装后请备份您的钱包文件，路径为/root/ceremonyclient/node/.config中的config和keys两个文件"
-    echo "查询余额官网：https://quilibrium.com/"
+    echo "查询余额官网：https://quilibrium.com/reward"
     echo "查询节点列表代码 screen -list(获取会话ID)"
     echo "查询会话Quili代码 screen -r ID"
     echo "关闭多余会话代码 screen -X -S ID quit"
@@ -330,13 +345,10 @@ function main_menu() {
     echo "4. 重启节点"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 查询余额(20版本更新)"
-    echo "8. 更新grpcurl"
-    echo "9. 查询grcurl端口"
-    echo "10. 手动更新19版本"
-    echo "11. 查询pow实时余额"
-    echo "12. 更新1.4.21-p1"
-    read -p "请输入选项（1-12）: " OPTION
+    echo "7. 查询余额"
+    echo "8. 安装grpcurl"
+    echo "9. 安装qclient"
+    read -p "请输入选项（1-9）: " OPTION
 
     case $OPTION in
     1) install_node ;;
@@ -347,10 +359,8 @@ function main_menu() {
     6) uninstall ;;
     7) check_balance ;;
     8) grpcurl ;;
-    9) check_grpcurl ;;
-    10) update ;;
-    11) check_balance ;;
-    12) up ;;
+    9) qclient ;;
+
     *) echo "无效选项。" ;;
     esac
 }
