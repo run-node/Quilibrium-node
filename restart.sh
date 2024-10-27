@@ -6,8 +6,8 @@ while true; do
     timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
     # 发送 SIGTERM 信号终止指定的进程
-    echo "[$timestamp] Terminating process node-2.0.1-linux-amd64..."
-    pkill -SIGTERM -f node-2.0.1-linux-amd64
+    echo "[$timestamp] Terminating process node-2.0.2.2-linux-amd64..."
+    pkill -SIGTERM -f node-2.0.2.2-linux-amd64
 
     # 等待10秒
     echo "[$timestamp] Waiting for 10 seconds..."
@@ -19,7 +19,7 @@ while true; do
 
     # 启动新的 screen 会话并执行指定命令
     echo "[$timestamp] Starting new screen session for Quili..."
-    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./node-2.0.1-linux-amd64'
+    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./node-2.0.2.2-linux-amd64'
 
     # 等待10分钟
     echo "[$timestamp] Waiting for 10 minutes..."
