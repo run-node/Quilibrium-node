@@ -287,9 +287,6 @@ function grpcurl(){
     else
         echo "grpcurl is already installed"
     fi
-     # 启动新的 screen 会话
-    screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
-    echo "已启动 screen 会话，清前往查看日志"
 }
 
 function qclient(){
