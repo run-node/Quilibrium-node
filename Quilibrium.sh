@@ -226,11 +226,6 @@ screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
 echo "已启动 screen 会话，清前往查看日志"
 }
 
-function check_balance(){
-cd $HOME/ceremonyclient/node && ./node-1.4.21.1-linux-amd64 --node-info
-
-}
-
 function update_script() {
     SCRIPT_URL="https://raw.githubusercontent.com/a3165458/Quilibrium/main/Quili.sh"
     curl -o $SCRIPT_PATH $SCRIPT_URL
