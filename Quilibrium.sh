@@ -108,7 +108,7 @@ function check_service_status() {
 }
 
 function check_address(){
-cd ~/ceremonyclient/node && ./node-2.0.1-linux-amd64 -peer-id
+cd ~/ceremonyclient/node/ && ./node-2.0.2.2-linux-amd64 --node-info
 
 }
 
@@ -180,9 +180,15 @@ screen -r Quili
 }
 
 # 查询币余额
-function check_balance() {
-cd ceremonyclient/client
+function check_uxtobalance() {
+cd /root/ceremonyclient/client
 ./qclient-2.0.1-linux-amd64 token coins --config /root/ceremonyclient/node/.config
+
+}
+
+function check_balance() {
+cd /root/ceremonyclient/client
+./qclient-2.0.1-linux-amd64 token balance --config /root/ceremonyclient/node/.config
 
 }
 
@@ -340,9 +346,10 @@ function main_menu() {
     echo "4. 重启节点"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 查询余额"
-    echo "8. 安装grpcurl"
-    echo "9. 安装qclient"
+    echo "7. 查询uxto余额"
+    echo "8. 查询总余额"
+    echo "9. 安装grpcurl"
+    echo "10. 安装qclient"
     read -p "请输入选项（1-9）: " OPTION
 
     case $OPTION in
@@ -352,9 +359,10 @@ function main_menu() {
     4) restart ;;
     5) backup ;;
     6) uninstall ;;
-    7) check_balance ;;
-    8) grpcurl ;;
-    9) qclient ;;
+    7) check_uxtobalance ;;
+    8) check_balance ;;
+    9) grpcurl ;;
+    10) qclient ;;
 
     *) echo "无效选项。" ;;
     esac
