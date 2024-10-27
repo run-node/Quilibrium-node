@@ -83,9 +83,7 @@ function check_service_status() {
 }
 
 function check_address(){
-source /root/.gvm/scripts/gvm
-gvm use go1.20.2
-cd ~/ceremonyclient/node/ && GOEXPERIMENT=arenas go run ./... -peer-id
+cd ~/ceremonyclient/node/ && ./node-2.0.2.2-linux-amd64 --node-info
 }
 
 function restart(){
