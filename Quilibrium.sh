@@ -312,6 +312,31 @@ function qclient(){
 
 }
 
+function qclient2(){
+    #!/bin/bash
+
+    # 切换到目标目录
+    cd /root/ceremonyclient/node || exit
+    
+    # 获取并下载最新的 linux-amd64 文件
+    for f in $(curl -s https://releases.quilibrium.com/qclient-release | grep linux-amd64); do
+        echo "Processing $f..."
+        
+        # 如果文件存在，删除它
+        if [ -f "$f" ]; then
+            echo "Removing existing file: $f"
+            rm "$f"
+        fi
+        
+        # 下载文件
+        echo "Downloading $f..."
+        curl -s -O "https://releases.quilibrium.com/$f"
+    done
+    chmod +x qclient-2*
+    echo "Update complete!"
+
+}
+
 function up(){
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 cd $HOME/ceremonyclient/node
@@ -347,6 +372,7 @@ function main_menu() {
     echo "8. 查询总余额"
     echo "9. 安装grpcurl"
     echo "10. 安装qclient"
+    echo "11. 安装qclient到node文件夹"
     read -p "请输入选项（1-9）: " OPTION
 
     case $OPTION in
@@ -360,7 +386,7 @@ function main_menu() {
     8) check_balance ;;
     9) grpcurl ;;
     10) qclient ;;
-
+    11) qclient2 ;;
     *) echo "无效选项。" ;;
     esac
 }
