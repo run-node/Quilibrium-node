@@ -15,7 +15,7 @@ screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} 
 # 启动新的 screen 会话并执行指定命令
 echo "[$(date +"%Y-%m-%d %H:%M:%S")] Starting new screen session for Quili..."
 > /root/screen_log.txt && screen -L -Logfile /root/screen_log.txt -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./node-2.0.2.3-linux-amd64'
-    
+
 # 无限循环
 while true; do
     # 初始化上一个 ts 和 increment 值
@@ -46,6 +46,13 @@ while true; do
         # 检查条件：如果 ts 不同且 increment 相同
         if [[ "$increment" == "$previous_increment" && "$ts" != "$previous_ts" ]]; then
             echo "Increment 值相同且 ts 不同，准备进行下一轮循环..."
+            break  # 退出内层循环，进行下一轮的重启过程
+        fi
+
+        # 检查当前时间戳是否大于10分钟
+        current_ts=$(date +%s)
+        if (( current_ts - ts > 600 )); then
+            echo "当前时间戳大于10分钟，准备进行重启..."
             break  # 退出内层循环，进行下一轮的重启过程
         fi
 
