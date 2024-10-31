@@ -19,7 +19,7 @@ while true; do
 
     # 启动新的 screen 会话并执行指定命令
     echo "[$timestamp] Starting new screen session for Quili..."
-    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./node-2.0.2.3-linux-amd64'
+    > /root/screen_log.txt && screen -L -Logfile /root/screen_log.txt -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./node-2.0.2.3-linux-amd64'
 
     # 等待10分钟
     echo "[$timestamp] Waiting for 10 minutes..."
