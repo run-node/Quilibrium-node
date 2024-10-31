@@ -91,7 +91,8 @@ chmod +x release_autorun.sh
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
 # 创建一个screen会话并运行命令
-screen -dmS Quili bash -c './release_autorun.sh'
+> /root/screen_log.txt && screen -L -Logfile /root/screen_log.txt -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+
 
 }
 
@@ -118,7 +119,8 @@ screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} 
     # 启动新的 screen 会话
     cd ~/ceremonyclient/node
     git pull
-    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+    > /root/screen_log.txt && screen -L -Logfile /root/screen_log.txt -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+
     echo "新的 screen 会话已启动。"
     screen -r Quili
 }
@@ -149,7 +151,8 @@ rm -rf store
 cd ~
 mv store ~/ceremonyclient/node/.config
 
-screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+> /root/screen_log.txt && screen -L -Logfile /root/screen_log.txt -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+
 }
 
 function repair(){
@@ -160,7 +163,8 @@ wget -O /root/ceremonyclient/node/.config/REPAIR "https://snapshots.cherryserver
 screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
     # 启动新的 screen 会话
-    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+    > /root/screen_log.txt && screen -L -Logfile /root/screen_log.txt -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+
     echo "新的 screen 会话已启动。"
 
 
@@ -190,7 +194,8 @@ git switch release-non-datacenter
 chmod +x release_autorun.sh
 
 # 创建一个 screen 会话并运行命令
-screen -dmS Quili bash -c './release_autorun.sh'
+> /root/screen_log.txt && screen -L -Logfile /root/screen_log.txt -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+
 screen -r Quili
 }
 
@@ -208,7 +213,8 @@ function pow() {
     git checkout release
     screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
     # 启动新的 screen 会话
-    screen -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+    > /root/screen_log.txt && screen -L -Logfile /root/screen_log.txt -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+
     echo "新的 screen 会话已启动。"
 }
 
@@ -218,7 +224,8 @@ cd $HOME/ceremonyclient/node
 git remote set-url origin https://source.quilibrium.com/quilibrium/ceremonyclient.git
 git pull
 git checkout release-cdn
-screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node && ./release_autorun.sh'
+> /root/screen_log.txt && screen -L -Logfile /root/screen_log.txt -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+
 echo "已启动 screen 会话，清前往查看日志"
 }
 
@@ -237,7 +244,8 @@ screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} 
 read -p "请输入需要使用的核心数量（例如1-26）: " cores
 
 # 启动新的 screen 会话
-screen -dmS Quili bash -c 'cd $HOME/ceremonyclient/node &&taskset -c $cores ./release_autorun.sh'
+> /root/screen_log.txt && screen -L -Logfile /root/screen_log.txt -dmS Quili bash -c 'cd ~/ceremonyclient/node && ./release_autorun.sh'
+
 echo "已启动 screen 会话，使用核心：$cores"
 screen -r Quili
 }
