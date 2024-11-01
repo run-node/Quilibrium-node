@@ -109,7 +109,7 @@ function check_service_status() {
 }
 
 function check_address(){
-cd ~/ceremonyclient/node/ && ./node-2.0.2.3-linux-amd64 --node-info
+cd ~/ceremonyclient/node/ && ./node-2.0.2.4-linux-amd64 --node-info
 
 }
 
