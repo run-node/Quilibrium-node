@@ -51,7 +51,8 @@ while true; do
 
         # 检查当前时间戳是否大于10分钟
         current_ts=$(date +%s)
-        if (( current_ts - ts > 600 )); then
+        ts_int=${ts%.*}  # 去掉小数部分
+        if (( current_ts - ts_int > 600 )); then
             echo "当前时间戳大于10分钟，准备进行重启..."
             break  # 退出内层循环，进行下一轮的重启过程
         fi
