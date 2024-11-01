@@ -29,7 +29,7 @@ while true; do
         
         if [[ -z "$line" ]]; then
             echo "没有找到 increment 值，等待..."
-            sleep 60
+            sleep 300
             continue
         fi
 
