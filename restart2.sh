@@ -63,6 +63,7 @@ while true; do
     # 发送 SIGTERM 信号终止指定的进程
     echo "[$(date +"%Y-%m-%d %H:%M:%S")] Terminating process node-2.0.2.4-linux-amd64..."
     pkill -SIGTERM -f node-2.0.2.4-linux-amd64
+    pkill -SIGTERM -f node-2.0.2.3-linux-amd64
 
     # 等待10秒
     echo "[$(date +"%Y-%m-%d %H:%M:%S")] Waiting for 10 seconds..."
