@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# 关闭所有匹配条件的 screen 会话
+echo "[$(date +"%Y-%m-%d %H:%M:%S")] Closing detached screen sessions..."
+screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
+
 # 发送 SIGTERM 信号终止指定的进程
 echo "[$(date +"%Y-%m-%d %H:%M:%S")] Terminating process node-2.0.2.4-linux-amd64..."
 pkill -SIGTERM -f node-2.0.2.4-linux-amd64
@@ -8,10 +12,6 @@ pkill -SIGTERM -f node-2.0.2.3-linux-amd64
 # 等待10秒
 echo "[$(date +"%Y-%m-%d %H:%M:%S")] Waiting for 10 seconds..."
 sleep 10
-
-# 关闭所有匹配条件的 screen 会话
-echo "[$(date +"%Y-%m-%d %H:%M:%S")] Closing detached screen sessions..."
-screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
 # 启动新的 screen 会话并执行指定命令
 echo "[$(date +"%Y-%m-%d %H:%M:%S")] Starting new screen session for Quili..."
@@ -60,6 +60,10 @@ while true; do
         sleep 10
     done
 
+    # 关闭所有匹配条件的 screen 会话
+    echo "[$(date +"%Y-%m-%d %H:%M:%S")] Closing detached screen sessions..."
+    screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
+    
     # 发送 SIGTERM 信号终止指定的进程
     echo "[$(date +"%Y-%m-%d %H:%M:%S")] Terminating process node-2.0.2.4-linux-amd64..."
     pkill -SIGTERM -f node-2.0.2.4-linux-amd64
@@ -69,9 +73,6 @@ while true; do
     echo "[$(date +"%Y-%m-%d %H:%M:%S")] Waiting for 10 seconds..."
     sleep 10
 
-    # 关闭所有匹配条件的 screen 会话
-    echo "[$(date +"%Y-%m-%d %H:%M:%S")] Closing detached screen sessions..."
-    screen -ls | grep Detached | grep Qui | awk -F '[.]' '{print $1}' | xargs -I {} screen -S {} -X quit
 
     # 启动新的 screen 会话并执行指定命令
     echo "[$(date +"%Y-%m-%d %H:%M:%S")] Starting new screen session for Quili..."
