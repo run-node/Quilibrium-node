@@ -29,7 +29,7 @@ while true; do
         
         if [[ -z "$line" ]]; then
             echo "没有找到 increment 值，等待..."
-            sleep 5
+            sleep 60
             continue
         fi
 
@@ -56,7 +56,7 @@ while true; do
         previous_increment="$increment"
 
         # 等待一段时间再继续监听
-        sleep 5
+        sleep 10
     done
 
     # 发送 SIGTERM 信号终止指定的进程
