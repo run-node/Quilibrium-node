@@ -377,11 +377,11 @@ function main_menu() {
     echo "4. 重启节点"
     echo "5. 备份钱包文件到root/quilibrium_key目录中"
     echo "6. 卸载节点(请提前备份好钱包文件)"
-    echo "7. 查询uxto余额"
-    echo "8. 查询总余额"
+    echo "7. 查询uxto余额(代币地址)"
+    echo "8. 查询总余额(账户地址)"
     echo "9. 安装grpcurl"
-    echo "10. 安装qclient"
-    echo "11. 安装qclient到node文件夹"
+    echo "10. 更新qclient(提示qclient版本错误时请更新)"
+    echo "11. 安装qclient到node文件夹(忽略)"
     echo "12. 查询increment值"
     read -p "请输入选项（1-9）: " OPTION
 
