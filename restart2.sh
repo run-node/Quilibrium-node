@@ -43,12 +43,6 @@ while true; do
         # 输出当前时间和 increment 值
         echo "当前时间: ${formatted_time} ---- increment: ${increment}"
 
-        # 检查条件：如果 ts 不同且 increment 相同
-        if [[ "$increment" == "$previous_increment" && "$ts" != "$previous_ts" ]]; then
-            echo "Increment 值相同且 ts 不同，准备进行下一轮循环..."
-            break  # 退出内层循环，进行下一轮的重启过程
-        fi
-
         # 检查当前时间戳是否大于10分钟
         current_ts=$(date +%s)
         ts_int=${ts%.*}  # 去掉小数部分
