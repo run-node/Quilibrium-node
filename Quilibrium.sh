@@ -350,6 +350,17 @@ git clean -df
 echo "请重启节点······"
 }
 # 主菜单
+
+function increment(){
+    grep "increment" /root/screen_log.txt | while read -r line; do
+        ts=$(echo "$line" | grep -oP '"ts":\K[0-9.]+')
+        increment=$(echo "$line" | grep -oP '"increment":\K[0-9]+')
+        formatted_time=$(date -u -d @"${ts}" +"%Y-%m-%d %H:%M:%S" --utc)
+        formatted_time=$(date -d "${formatted_time} +8 hours" +"%Y-%m-%d %H:%M:%S")
+        echo "当前时间: ${formatted_time} ---- increment: ${increment}"
+    done
+
+}
 function main_menu() {
     clear
     echo "==========================自用脚本=============================="
@@ -371,6 +382,7 @@ function main_menu() {
     echo "9. 安装grpcurl"
     echo "10. 安装qclient"
     echo "11. 安装qclient到node文件夹"
+    echo "12. 查询increment值"
     read -p "请输入选项（1-9）: " OPTION
 
     case $OPTION in
@@ -385,6 +397,7 @@ function main_menu() {
     9) grpcurl ;;
     10) qclient ;;
     11) qclient2 ;;
+    12) increment ;;
     *) echo "无效选项。" ;;
     esac
 }
