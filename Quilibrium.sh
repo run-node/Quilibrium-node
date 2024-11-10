@@ -109,7 +109,7 @@ function check_service_status() {
 }
 
 function check_address(){
-cd ~/ceremonyclient/node/ && ./node-2.0.2.4-linux-amd64 --node-info
+cd ~/ceremonyclient/node/ && ./node-2.0.3-linux-amd64 --node-info
 
 }
 
@@ -176,13 +176,13 @@ screen -r Quili
 # 查询币余额
 function check_uxtobalance() {
 cd /root/ceremonyclient/client
-./qclient-2.0.2.4-linux-amd64 token coins --config /root/ceremonyclient/node/.config
+./qclient-2.0.3-linux-amd64 token coins --config /root/ceremonyclient/node/.config
 
 }
 
 function check_balance() {
 cd /root/ceremonyclient/client
-./qclient-2.0.2.4-linux-amd64 token balance --config /root/ceremonyclient/node/.config
+./qclient-2.0.3-linux-amd64 token balance --config /root/ceremonyclient/node/.config
 
 }
 
